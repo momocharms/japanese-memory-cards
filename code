@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Memory Game for JLPT N5 Kanji</title>
+	<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+	<div id="game-container"></div>
+
+	<script src="script.js"></script>
+</body>
+</html>
+
+aqui esta el otro-----------------------------------------------------te amo
+
+body {
+	background-color: #F8E9D6;
+	color: #3D405B;
+	font-family: Arial, sans-serif;
+}
+
+.card {
+	background-color: #fff;
+	border-radius: 5px;
+	box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+	cursor: pointer;
+	display: inline-block;
+	margin: 10px;
+	padding: 20px;
+	transition: all 0.3s ease;
+}
+
+.card:hover {
+	background-color: #E07A5F;
+	color: #fff;
+	transform: scale(1.05);
+}
+
+.hidden {
+	display: none;
+}
+
+.matched {
+	background-color: #81B29A;
+	color: #fff;
+	cursor: default;
+}
+
+#game-container {
+	margin-top: 20px;
+	text-align: center;
+}
+
+
+----------------------------------------------------------
+
+const kanji = [
+	{ character: "一", reading: "いち (ichi)", meaning: "one" },
+	{ character: "二", reading: "に (ni)", meaning: "two" },
+	{ character: "三", reading: "さん (san)", meaning: "three" },
+	{ character: "四", reading: "し (shi)", meaning: "four" },
+	{ character: "五", reading: "ご (go)", meaning: "five" },
+	{ character: "六", reading: "ろく (roku)", meaning: "six" },
+	{ character: "七", reading: "しち (shichi)", meaning: "seven" },
+	{ character: "八", reading: "はち (hachi)", meaning: "eight" },
+	{ character: "九", reading: "きゅう (kyuu)", meaning: "nine" },
+	{ character: "十", reading: "じゅう (juu)", meaning: "ten" }
+];
+
+const cards = kanji.concat(kanji).sort(() => 0.5 - Math.random());
+
+let flippedCards = [];
+let matchedCards = [];
+
+const gameContainer = document.getElementById("game-container");
+
+cards.forEach(card => {
+	const cardElement = document.createElement("div");
+	cardElement.classList.add("card");
+
+	const characterElement = document.createElement("div");
+	characterElement.classList.add("character");
+	characterElement.textContent = card.character;
+	cardElement.appendChild(characterElement);
+
+	const readingElement = document.createElement("div");
+	readingElement.classList.add("reading", "hidden");
+	readingElement.textContent = card.reading;
+	cardElement.appendChild(readingElement);
+
+	const meaningElement = document.createElement("div");
+	meaningElement.classList.add("meaning", "hidden");
+	meaningElement.textContent = card.meaning;
+	cardElement.appendChild(meaningElement);
+
+	cardElement.addEventListener("click", () => {
+		if (flippedCards.length < 2 && !flippedCards.includes(cardElement) && !matchedCards.includes(cardElement)) {
+			flipCard(cardElement);
+			flippedCards.push(cardElement);
+			if (flippedCards.length === 2) {
+				checkForMatch();
+			}
+		}
+	});
+
+	gameContainer.appendChild(cardElement);
+});
+
+function flipCard(cardElement
